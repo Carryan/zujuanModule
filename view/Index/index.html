@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>首页</title>
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="stylesheet" type="text/css" href="../../static/vendor/Layui/css/layui.css" />
+  	<link rel="stylesheet" type="text/css" href="../../static/css/common.css" />
+  	<link rel="stylesheet" type="text/css" href="../../static/css/styles.css" />
+</head>
+<body>
+
+	<!--[if lte IE 9]>
+	<p>你正在使用<strong>过时</strong>的浏览器，请 <a href="http://browsehappy.com/" target="_blank" style="color:red;">升级浏览器</a> 以获得更好的体验！</p>
+	<![endif]-->
+
+	<div id="header"></div>
+
+	<div id="index2" class="container">
+		
+		<div class="select-box index-top">
+			<div class="select-item">
+				<label>教版：</label>
+				<a class="active" href="">人教版</a>
+				<a href="#">北师大版</a>
+				<a href="#">浙教版</a>
+				<a href="#">华师大版</a>
+				<a href="#">苏科版</a>
+				<a href="#">沪教版</a>
+				<a href="#">湘教版</a>
+				<a href="#">冀教版</a>
+				<a href="#">鲁教版（五四制）</a>
+			</div>
+			<div class="select-item">
+				<label>年级：</label>
+				<a class="active" href="">七年级上册</a>
+				<a href="#">七年级下册</a>
+				<a href="#">八年级上册</a>
+				<a href="#">八年级下册</a>
+				<a href="#">九年级上册</a>
+				<a href="#">九年级下册</a>
+			</div>
+		</div>
+
+		<div class="row">
+			
+			<div class="index-left fl">
+				<div class="title">选择章节</div>
+				<ul id="treeview" class="index-tree">
+					<li class="open"><a href="#">第一单元</a>
+						<ul>
+							<li class="open"><a href="#">阅读</a>
+								<ul>
+									<li><a href="#">第一课 散步</a></li>
+									<li class="active"><a href="#">第二课 秋天的怀念</a></li>
+									<li><a href="#">第三课 散文诗两首 -- 散文诗两首</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><a href="#">第二单元</a>
+						<ul>
+							<li><a href="#">阅读</a>
+								<ul>
+									<li><a href="#">第一课 散步</a></li>
+									<li><a href="#">第二课 秋天的怀念</a></li>
+									<li><a href="#">第三课 散文诗两首</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><a href="#">第三单元</a>
+						<ul>
+							<li><a href="#">第一课 散步</a></li>
+							<li><a href="#">第一课 散步</a></li>
+							<li><a href="#">第一课 散步</a></li>
+						</ul>
+					</li>
+					<li><a href="#">第四单元</a>
+						<ul>
+							<li><a href="#">第一课 散步</a></li>
+							<li><a href="#">第一课 散步</a></li>
+							<li><a href="#">第一课 散步</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="index-right fr">
+
+				<div class="select-box">
+					<div class="select-item">
+						<label>题型：</label>
+						<a class="active" href="">全部</a>
+						<a href="#">选择题</a>
+						<a href="#">填空题</a>
+						<a href="#">解答题</a>
+						<a href="#">计算题</a>
+						<a href="#">作图题</a>
+						<a href="#">判断题</a>
+						<a href="#">综合题</a>
+					</div>
+					<div class="select-item">
+						<label>难易：</label>
+						<a class="active" href="">全部</a>
+						<a href="#">容易</a>
+						<a href="#">普通</a>
+						<a href="#">困难</a>
+					</div>
+					<div class="select-item">
+						<label>类型：</label>
+						<a class="active" href="">全部</a>
+						<a href="#">月考</a>
+						<a href="#">模拟考</a>
+						<a href="#">中考</a>
+						<a href="#">高考</a>
+						<a href="#">学业考试</a>
+						<a href="#">其他</a>
+					</div>
+				</div>
+
+				<div class="sort clfix">
+					<div class="fl">
+						<span>排序：</span>
+						<a href="javascript:;" class="active">时间 &uarr;</a>
+                    	<a href="javascript:;" class="">组卷次数 &uarr;</a>
+					</div>
+					<div class="fr">
+						<span>共找到：<strong>464</strong> 题</span>
+						<a id="select-all-qs" class="select-all" href="javascript:;">选择本页面全部试题</a>
+					</div>
+				</div>
+
+				<ul id="search-list" class="search-list" v-cloak>
+					<li v-for="(q,key) in questions" class="q-box">
+						<div class="q-header clfix">
+							<div class="fl">
+								<span>题型：{{ q.q_type }}</span><i class="line"></i>
+								<span>难易：{{ q.q_difficult_level }}</span><i class="line"></i>
+								<span>题类：{{ q.q_channel_type }}</span>
+							</div>
+							<div class="fr">
+								<span class="q-times">组卷次数：{{ q.q_times }}</span>
+							</div>
+						</div>
+						<div class="q-content">
+							<question :order_num="(key+1)+'. '" :text="q.q_text" :options="q.options" :list="q.list"></question>
+						</div>
+						<div class="q-notice">
+							<span class="q-id">ID：{{ q.q_id }}</span>
+							<span class="q-from">来源：{{ q.q_source }}</span>
+						</div>
+						<div class="q-footer clfix">
+							<div class="fl">
+								<a href="index.html" target="_blank" class="show-answer">
+									<span class="icon icon-eye"></span>查看解析
+								</a>
+								<a href="javascript:;" class="icon-btn" @click="q.isCollected=!q.isCollected">
+									<span class="icon icon-heart"></span>{{ q.isCollected?'已收藏':'收藏'}}
+								</a>
+								<a href="javascript:;" class="icon-btn" v-on:click="correct(q.q_id)">
+									<span class="icon icon-warn"></span>纠错
+								</a>
+							</div>
+							<div class="fr">
+								<a href="#" class="icon-btn">
+									<span class="icon icon-download-g"></span>下载
+								</a>
+								<a href="javascript:;" class="btn" :class="{'btn-grey':q.isBasket}" @click="toggleBasket($event,key)">
+									{{ q.isBasket?'-&nbsp;&nbsp;移除':'+&nbsp;&nbsp;选题' }}
+								</a>
+							</div>
+						</div>
+					</li>
+					<div class="null-page" v-if="questions.length==0">
+						<img src="../../static/image/icon/null-page.png">
+						<p>该分类下暂无资源，请尝试其他分类。</p>
+					</div>
+				</ul>
+
+				<div id="laypage" class="laypage text-right" data-total="15" data-curr="3" data-link="#?p=_id_" ></div>
+
+			</div>
+
+		</div>
+		
+	</div>
+	<!-- container end -->
+
+	<div id="footer"></div>
+
+	<!-- 试卷蓝 -->
+	<div id="basket" class="basket" :class="{active:isActive}" v-cloak>
+	    <div class="basket-tit" @click="isActive = !isActive">
+	        <p><span class="icon icon-shopcart"></span>试题篮<span class="count">{{ questions.length }}</span></p>
+	    </div>
+	    <div class="basket-con">
+	        <div class="basket-count">
+	        	<div class="basket-head">
+	                共计：（<span>{{ questions.length }}</span>）道题 <a href="javascript:;" v-on:click="clearBasket">清空</a>
+	            </div>
+                <div class="baskrt-list">
+                	<p v-for="item in getList">
+                		{{ item.type }}：<span>{{ item.q_ids.length }}</span> 道
+                		<i class="icon icon-del" v-on:click="clearType(item)"></i>
+                	</p>
+                </div>
+	        </div>
+	        <div class="basket-foot">
+	            <a class="btn" href="javascript:;" v-on:click="buildPaper()">生成试卷</a>
+	        </div>
+	    </div>
+	</div>
+
+	<!-- 纠错框 -->
+	<div class="correct-box">
+		<p>如果您发现试题可能有错误，感谢您给我们指出！</p>
+		<form action="index.html" method="" class="layui-form" lay-filter="ajaxSubmit" callback="">
+			<input type="hidden" name="qid" value="">
+			<textarea required></textarea>
+			<button class="submit" type="submit" hidden></button>
+		</form>
+	</div>
+
+<script src="../../static/js/jquery-2.1.1.min.js"></script>
+<!-- <script src="../../static/js/vue.js"></script> -->
+<script src="../../static/vendor/Layui/layui.js"></script>
+<script src="../../static/js/require.js" data-main="../../static/js/common"></script>
+<script type="text/javascript">
+	// 当前科目
+	curSubject = {
+		xd: 1,
+		xk: 1,
+		xkName: "语文"
+	}
+	// 引入题目数据
+	var questions = [];
+	$.ajax({
+		url: '../../static/data/questionsList.json',
+		async: false,
+		dataType: 'json',
+		success: function(res){ 
+			questions=res; 
+		}
+	});
+	
+</script>
+</body>
+</html>

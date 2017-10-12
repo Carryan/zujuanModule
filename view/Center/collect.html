@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>收藏试题</title>
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="stylesheet" type="text/css" href="../../static/vendor/Layui/css/layui.css" />
+  	<link rel="stylesheet" type="text/css" href="../../static/css/common.css" />
+  	<link rel="stylesheet" type="text/css" href="../../static/css/styles.css" />
+</head>
+<body>
+
+	<div id="header"></div>
+
+	<div class="container">
+
+		<div class="position">
+			您的位置：
+	      	<a href="../Index/index.html">首页</a>
+	      	<span class="sp-line">&middot;</span>
+	      	<a href="#">个人中心</a>
+	    </div>
+
+		<div class="row">
+			<div class="center-left fl">
+				<div class="photo">
+					<img src="../../static/image/photo.jpg">
+				</div>
+				<p class="name">何启元</p>
+				<p class="subject text-ellipsis">
+					<span class="icon icon-subject"></span>初中<span class="sp-line">|</span>物理
+				</p>
+				<ul class="center-menu">
+					<li><a href="index.html">历史组卷</a></li>
+					<li class="active"><a href="collect.html">收藏试题</a></li>
+					<li><a href="">设置</a></li>
+				</ul>
+			</div>
+
+			<div class="center-right collect-right fr">
+				<div class="center-right-top clfix">
+					<div class="title fl">收藏试题</div>
+					<div class="fr center-right-search">
+						<form class="layui-form" method="" action="" lay-filter="ajaxSubmit" callback="">
+							<label class="layui-form-label">题型：</label>
+							<div class="layui-input-block">
+								<select name="city" lay-verify="required">
+							        <option value="">请选择</option>
+							        <option value="0">选择题</option>
+							        <option value="1">填空题</option>
+							        <option value="2">阅读题</option>
+							        <option value="3">解答题</option>
+							        <option value="4">计算题</option>
+							    </select>
+						    </div>
+						</form>
+					</div>
+				</div>
+
+				<ul id="search-list" class="search-list" v-cloak>
+					<li v-for="(q,key) in questions" class="q-box">
+						<div class="q-header clfix">
+							<div class="fl">
+								<span>题型：{{ q.q_type }}</span><i class="line"></i>
+								<span>难易：{{ q.q_difficult_level }}</span><i class="line"></i>
+								<span>题类：{{ q.q_channel_type }}</span>
+							</div>
+							<div class="fr">
+								<span class="q-times">组卷次数：{{ q.q_times }}</span>
+							</div>
+						</div>
+						<div class="q-content">
+							<question :order_num="(key+1)+'. '" :text="q.q_text" :options="q.options" :list="q.list"></question>
+						</div>
+						<div class="q-notice">
+							<span class="q-id">ID：{{ q.q_id }}</span>
+							<span class="q-from">来源：{{ q.q_source }}</span>
+						</div>
+						<div class="q-footer clfix">
+							<div class="fl">
+								<a href="index.html" target="_blank" class="show-answer">
+									<span class="icon icon-eye"></span>查看解析
+								</a>
+								<a href="javascript:;" class="icon-btn">
+									<span class="icon icon-heart"></span>{{ q.isCollected?'已收藏':'收藏'}}
+								</a>
+								<a href="javascript:;" class="icon-btn" v-on:click="correct">
+									<span class="icon icon-warn"></span>纠错
+								</a>
+							</div>
+							<div class="fr">
+								<a href="#" class="icon-btn">
+									<span class="icon icon-download-g"></span>下载
+								</a>
+								<a href="javascript:;" class="btn" :class="{'btn-grey':q.isBasket}" @click="toggleBasket($event,key)">
+									{{ q.isBasket?'-&nbsp;&nbsp;移除':'+&nbsp;&nbsp;选题' }}
+								</a>
+							</div>
+						</div>
+					</li>
+					<div class="null-page" v-if="questions.length==0">
+						<img src="../../static/image/icon/null-content.png">
+						<p>暂无收藏试题</p>
+						<a class="btn" href="../Index/index.html">去看看</a>
+					</div>
+				</ul>
+
+			</div>
+		</div>
+
+	</div>
+	<!-- container end -->
+
+	<div id="footer"></div>
+
+	<!-- 试卷蓝 -->
+	<div id="basket" class="basket" :class="{active:isActive}" v-cloak>
+	    <div class="basket-tit" @click="isActive = !isActive">
+	        <p><span class="icon icon-shopcart"></span>试题篮<span class="count">{{ questions.length }}</span></p>
+	    </div>
+	    <div class="basket-con">
+	        <div class="basket-count">
+	        	<div class="basket-head">
+	                共计：（<span>{{ questions.length }}</span>）道题 <a href="javascript:;" v-on:click="clearBasket">清空</a>
+	            </div>
+                <div class="baskrt-list">
+                	<p v-for="item in getList">
+                		{{ item.type }}：<span>{{ item.q_ids.length }}</span> 道
+                		<i class="icon icon-del" v-on:click="clearType(item)"></i>
+                	</p>
+                </div>
+	        </div>
+	        <div class="basket-foot">
+	            <a class="btn" href="javascript:;" v-on:click="buildPaper()">生成试卷</a>
+	        </div>
+	    </div>
+	</div>
+
+	<!-- 纠错框 -->
+	<div class="correct-box">
+		<p>如果您发现试题可能有错误，感谢您给我们指出！</p>
+		<form action="index.html" method="" class="layui-form" lay-filter="ajaxSubmit" callback="">
+			<input type="hidden" name="qid" value="">
+			<textarea required></textarea>
+			<button class="submit" type="submit" hidden></button>
+		</form>
+	</div>
+
+<script src="../../static/js/jquery-2.1.1.min.js"></script>
+<script src="../../static/vendor/Layui/layui.js"></script>
+<script src="../../static/js/require.js" data-main="../../static/js/common"></script>
+<script type="text/javascript">
+	// 当前科目
+	curSubject = {
+		xd: 1,
+		xk: 1,
+		xkName: "语文"
+	}
+	// 引入题目数据
+	var questions = [];
+	$.ajax({
+		url: '../../static/data/questionsList.json',
+		async: false,
+		dataType: 'json',
+		success: function(res){ 
+			questions=res; 
+		}
+	});
+</script>
+</body>
+</html>

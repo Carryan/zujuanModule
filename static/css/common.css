@@ -1,0 +1,504 @@
+/*reset*/
+* {
+	font-family: MicrosoftYaHei;
+  font-size: 14px;
+	/*color: #333333;*/
+}
+a {
+  font-family: inherit;
+  text-decoration: none;
+}
+a:hover {
+  color: inherit;
+}
+button::-moz-focus-inner {
+    border:0;
+    padding:0;
+}
+input:focus, button:focus, textarea:focus, a:focus {
+  	outline: none;
+}
+/*去除火狐红色边框*/
+input[required]:invalid, input:focus:invalid, textarea[required]:invalid,
+textarea:focus:invalid {
+  box-shadow: none;
+}
+textarea {
+  width: 100%;
+  resize: none;
+  text-align: justify;
+}
+img {
+  border: 0;
+  vertical-align: middle;
+}
+ol, ul {
+  list-style: none;
+}
+
+body {
+	background-color: #F3F3F3;
+}
+
+
+/*通用*/
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.clfix:after, .row:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+.container {
+  position: relative;
+  width: 1200px;
+  margin: 0 auto;
+}
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-right {
+  text-align: right;
+}
+.text-grey {
+  color: #999;
+}
+.text-blue, a.text-blue:hover {
+  color: #1c7fe2;
+}
+.text-red, a.text-red:hover {
+  color: #e21c1c;
+}
+.btn {
+  color: #fff;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+}
+.btn:hover {
+  color: #fff;
+}
+.icon-btn {
+  color: #7a8599;
+}
+.icon-btn:hover {
+  color: #606c80;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+
+/*header*/
+.header {
+	background-color: #1C7FE2;
+	height: 70px;
+	width: 100%;
+	border-bottom: 5px solid #3399FF;
+}
+.header-item {
+	display: inline-block;
+	line-height: 70px;
+  position: relative;
+}
+.header-title {
+	font-size: 18px;
+	color: #ffffff;
+	padding: 1.5px 15px;
+	border-left: 1px solid rgba(255,255,255,0.5);
+	margin-left: 18px;
+}
+.header-subject, .header-subject:hover {
+	color: #fff;
+}
+.header-subject > i {
+	background-color: #fff;
+	border-radius: 2px;
+	margin-left: 8px;
+	color: #1C7FE2;
+	font-size: 12px;
+}
+.header .subject-select {
+  width: 323px;
+  height: 134px;
+  background-color: #fff;
+  padding: 15px;
+  position: absolute;
+  z-index: 999;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  left: 0;
+  bottom: -136px;
+  line-height: 34px;
+  display: none;
+}
+.header .subject-select > p {
+  line-height: 17px;
+  border-left: 3px solid #1C7FE2;
+  margin-left: -3px;
+  padding-left: 13px;
+  margin-bottom: 10px;
+}
+.header .subject-select > a {
+  padding: 2px 10px;
+  border-radius: 3px ;
+  color: #000;
+  white-space: nowrap;
+  margin-right: 6px;
+}
+.header .subject-select > a.active {
+  background-color: #1C7FE2;
+  color: #fff;
+}
+.header-item.nav {
+	margin-left: 52px;
+}
+.header-item.nav a {
+	color: rgba(255,255,255,0.6);
+	font-size:18px;
+	padding: 0px 23px;
+	display: inline-block;
+}
+.header-item.nav a.active {
+	color: #fff;
+	background-color: #186ABC;
+}
+.header-search {
+	height:38px; 
+	background-color: #fff;
+	border-radius: 3px;
+	vertical-align: middle;
+	box-sizing: border-box;
+	padding: 8px 12px;
+	margin-right: 49px;
+  line-height: 20px;
+}
+.header-search > button {
+	margin-right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.header-search > input {
+	width: 215px;
+	border: none;
+  color: #999;
+}
+.header-item .btn-login {
+	color: #fff;
+  border: 1px solid #fff;
+  background-color: transparent;
+  padding: 4px 9px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.header-item .center-menu {
+  position: absolute;
+  width: 116px;
+  z-index: 999;
+  right: 0;
+  box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
+  border-radius: 3px;
+  display: none;
+}
+.header-item:hover .center-menu {
+  display: block;
+}
+.header-item .center-menu ul {
+  margin-top: 5px;
+  background-color: #fff;
+}
+.header-item .center-menu ul li {
+  line-height: 38px;
+  text-align: center;
+}
+.header-item .center-menu ul li:last-child {
+  border-top: 1px solid #e8e8e8;
+  margin: 0 6px;
+}
+
+
+/*footer*/
+.footer {
+	height: 100px;
+	background-color: #444444;
+	padding-top: 30px;
+	box-sizing: border-box;
+}
+.footer p {
+	font-size: 12px;
+	text-align: center;
+	color: #fff;
+	margin-bottom: 12px;
+}
+
+
+/*树形菜单*/
+.index-tree {
+  padding: 9px 12px 18px 5px;
+}
+.treeview ul {
+  position: relative;
+}
+.treeview li {
+  position: relative;
+    padding-left: 34px;
+    margin: 13px 0px;
+}
+.treeview > li {
+  padding-left: 20px;
+}
+.treeview li > a {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.treeview .collapsable > ul > li:before {
+  position: absolute;
+    top: -10px;
+    bottom: -2px;
+    left: 7px;
+    display: block;
+    width: auto;
+    height: auto;
+    content: ' ';
+    background: 0 0;
+    border: none;
+    border-left: 1px solid #dedede;
+}
+.treeview .collapsable > ul > li:last-child:before {
+  height: 20px;
+}
+.treeview .collapsable  ul  li:after {
+  position: absolute;
+    top: 9px;
+    left: 8px;
+    z-index: 1;
+    display: block;
+    width: 22px;
+    content: ' ';
+    border-top: 1px solid #dedede;
+}
+.treeview .hitarea {
+  height: 16px;
+    width: 16px;
+    margin-right: 6px;
+    float: left;
+    background-image: url('../image/icon/icon-tree.png');
+    background-repeat: no-repeat;
+}
+.treeview .expandable-hitarea {
+  background-position: 0 0;
+}
+.treeview .collapsable-hitarea {
+  background-position: 0 -19px;
+}
+.treeview .active > a, .treeview li a:hover {
+  color: #1c7fe2;
+}
+
+
+/*题目*/ 
+.q-content {
+  padding: 20px 20px 0;
+}
+.q-text {
+  padding-bottom: 20px;
+  line-height: 24px;
+}
+.q-text .q-blank {
+  display: inline-block;
+  width: 60px;
+  text-align: center;
+  border-bottom: 1px solid #dedede;
+  vertical-align: baseline;
+}
+.q-text img {
+  max-width: 100%;
+}
+.q-options .op-item {
+  display: block;
+  float: left;
+  padding-bottom: 20px;
+  zoom: 1;
+}
+.op-item-nut {
+  vertical-align: middle;
+}
+.op-item-meat {
+  vertical-align: middle;
+  display: inline-block;
+  max-width: 825px;
+}
+
+
+/*图标*/
+.icon {
+  background-image: url('../image/icon/icons.png');
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+}
+.icon-eye {
+  width: 17px;
+  height: 11px;
+  background-position: -56px 0;
+}
+.icon-heart {
+  width: 15px;
+  height: 13px;
+  background-position: -41px 0;
+}
+.icon-warn {
+  width: 15px;
+  height: 15px;
+  background-position: -26px 0;
+}
+.icon-download-g {
+  width: 19px;
+  height: 13px;
+  background-position: -73px 0;
+}
+.icon-shopcart {
+  width: 20px;
+  height: 19px;
+  background-position: -92px 0;
+}
+.icon-search {
+  width: 14px;
+  height: 14px;
+  background-position: -12px 0px;
+}
+.icon-del {
+  width: 12px;
+  height: 16px;
+  background-position: 0 0;
+}
+.icon-subject {
+  width: 14px;
+  height: 13px;
+  background-position:  0 -19px;
+}
+.icon-paper {
+  width: 14px;
+  height: 16px;
+  background-position: 0 0;
+}
+
+
+/*换页*/
+.laypage .layui-laypage a, .laypage .layui-laypage span {
+  margin-left: 10px;
+    padding: 0 10px;
+    color: #999;
+    border-radius: 3px;
+}
+
+/*空白页*/
+.null-page {
+  margin: 100px auto;
+  text-align: center;
+}
+.null-page p {
+  color: #333;
+  font-size: 18px;
+  margin-top: 30px;
+}
+.null-page .btn {
+  background-color: #328CE5;
+  display: inline-block;
+  width: 102px;
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  margin-top: 35px;
+  border-radius: 4px;
+}
+
+
+/*模态框*/
+.layui-layer .layui-layer-title{
+  background:#f2f2f2; 
+  color: #333; 
+  font-size: 16px;
+  height: 57px;
+  line-height: 57px;
+}
+.layui-layer .layui-layer-content {
+  height: auto !important;
+}
+.layui-layer .layui-layer-btn{
+  text-align: center;
+}
+.layui-layer .layui-layer-btn a{
+  padding: 4px 28px;
+  border-color: #1C7FE2;
+  color: #1C7FE2;
+}
+.layui-layer .layui-layer-btn .layui-layer-btn0 {
+  background-color: #1C7FE2;
+  color: #fff;
+}
+.layer-primary .layui-layer-btn{
+  margin-top: -10px;
+}
+.layer-primary .layui-layer-btn a{
+  margin-top: 0;
+}
+.layer-sm .layui-layer-content, .layui-layer-dialog.layer-sm .layui-layer-content {
+  box-sizing: border-box;
+  text-align: center;
+  padding-top: 65px;
+  padding-bottom: 50px;
+}
+.layer-sm .layui-layer-btn {
+  padding-top: 10px;
+}
+.correct-box {
+  display: none;
+  padding: 18px 24px 24px 29px;
+  height: 100%;
+  box-sizing: border-box;
+}
+.correct-box > p {
+  margin-bottom: 15px;
+}
+.correct-box form textarea {
+  width: 437px;
+  height: 171px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+
+/*面包屑*/
+.position {
+  color: #999;
+  font-size: 12px;
+  padding: 15px 0px;
+}
+.position a {
+  color: #666;
+  font-size: 12px;
+  display: inline-block;
+  vertical-align: text-bottom;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.position .sp-line {
+  margin: 0px 4px;
+}
