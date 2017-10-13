@@ -1,8 +1,8 @@
 /*reset*/
-* {
+html, body {
 	font-family: MicrosoftYaHei;
   font-size: 14px;
-	/*color: #333333;*/
+	color: #333333;
 }
 a {
   font-family: inherit;
@@ -106,6 +106,9 @@ body {
 	width: 100%;
 	border-bottom: 5px solid #3399FF;
 }
+.header .container {
+  overflow: visible;
+}
 .header-item {
 	display: inline-block;
 	line-height: 70px;
@@ -166,6 +169,7 @@ body {
 .header-item.nav a {
 	color: rgba(255,255,255,0.6);
 	font-size:18px;
+  line-height: 70px;
 	padding: 0px 23px;
 	display: inline-block;
 }
@@ -345,7 +349,7 @@ body {
 
 
 /*图标*/
-.icon {
+.icon-main {
   background-image: url('../image/icon/icons.png');
   background-repeat: no-repeat;
   display: inline-block;

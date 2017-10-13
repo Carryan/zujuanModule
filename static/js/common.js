@@ -26,229 +26,109 @@ $.ajax({
 })($(".subject-select"));
 
 
-/*********************按需加载***************************/ 
 
-var VENDOR_URL = '../../vendor/';
+/*********************组卷页*************************/ 
 
-require.config({
-	baseUrl: "../../static/js/modules",
-    paths: {
-        treeview: VENDOR_URL+"treeview/jquery.treeview",
-        treeview_cookie: VENDOR_URL+"treeview/jquery.cookie",
-        vue: "../vue",
-        QuestionBasket: "QuestionBasket"
-    },
-    shim:{
-		// 'vue':{ exports:'Vue' }
-	}
-});
+// 修正密封线高度
+(function autoFixedBuilder (element) {
 
-var Mods = {
-	// 树形菜单
-	tree: {
-		elem: ".index-tree",
-		fun: function(){
-			require(['treeview','treeview_cookie'], function(treeview){
-				var obj = $(".index-tree"); 
-				obj.treeview({
-			    	animated: "fast",
-			    	collapsed: true,
-			    	unique: true
-			  	});
-			  	obj.find('a').click(function(){
-			    	obj.find('li').removeClass("active");
-			    	$(this).parent().addClass("active");
-			  	});
-			});
-		}
-	},
-	// 试题列表与试题篮
-	questionBasket: {
-		elem: "#search-list, #basket",
-		fun: function(){
-			require(['QuestionBasket'], function(qb){
-				// 传入题目数据
-				qb.search_list.questions = questions;
-				// 检查题目是否在试题篮
-				var b_qids = qb.getQid(qb.basket.questions);
-				qb.search_list.checkBacketQs(b_qids);
-				// 点击全选
-				(function(obj){
-					if (!obj.length) { return ; }
-					obj.click(function(event){
-						var box = $(".q-footer .btn").not(".btn-grey").first().parents(".q-box");
-						if (!box.length) { return ; }
-						qb.enterBasket(box);
-						qb.search_list.selectAll();
-					});
-				})($("#select-all-qs"));
-			});
-		}
-	},
-	// 换页
-	laypage: {
-		elem: "#laypage",
-		fun: function(){
-			var ob = $("#laypage");
-			layui.use(['laypage'], function(){
-				var laypage = layui.laypage;
-				var pages = ob.attr('data-total'),
-		          	curr = ob.attr('data-curr'),
-		          	link = ob.attr('data-link');
-		      	laypage({
-		        	cont: 'laypage'
-		        	,pages: pages
-		        	,curr: curr
-		        	,skin: '#1c7fe2'
-		        	,jump: function(obj, first){
-		          		var curr = obj.curr;
-		          		if(!first){
-		            		window.location.href = "?p="+curr+link;
-		          		}
-		        	}
-		      	});
-			});
-		}
-	},
-	// layui 表单
-	layform: {
-		elem: ".layui-form",
-		fun: function(){
-			layui.use(['form'], function(){
-				form = layui.form();
-				// ajax表单提交
-				form.on('submit(ajaxSubmit)', function(data){
-					var _action = $(data.form).prop('action'),
-						_callback = $(this).attr('callback'),
-						_form = $(this);
-					$.ajax({
-						url: _action,
-						data: data.field,
-						type: 'get',
-						success: function(res){
-							_callback && execStrAsCode(_callback, res);
-							_form[0].reset();
-						}
-					});
-					return false;
-				});
-			});
-		}
-	}
+  function fixSize () {
+    setTimeout(function () {
+      element.find('#sealine').height(element.find('#mainbox').height());
+    });
+  }
+  // 页面载入及试卷对象发生改变时调整密封线高度
+  window.addEventListener('load', fixSize);
+  document.addEventListener('mainbox-size-changed', fixSize);
 
-}
-
-for (var i in Mods) {
-	if($(Mods[i].elem).length)
-		Mods[i].fun();
-}
+})($('#paper'));
 
 
-/***************************自定义******************************/ 
+// 弹框
+(function setPopboxMovable (element) {
+})($('#popBox'));
 
-// 返回对象数组中存在某属性的第一个元素的位置，判断一个对象数组里是否存在某个对象
-function findElem(arrayToSearch,attr,val){
-    for (var i=0;i<arrayToSearch.length;i++){
-        if(arrayToSearch[i][attr]==val){
-            return i;
-        }
+
+// 文本修改
+(function modifyText () {
+})();
+
+
+// 侧边栏
+(function autoFixedSidebar (element) {
+
+  var $btnFold = $('button.btn-fold');
+  var $wrapper = $('#sidebar div.wrapper');
+  var $statsWrapper = $('#statsBox div.wrapper');
+  var sidebarOffsetTop = element.offset().top;
+  
+  // 获取侧边栏内容初始高度
+  var originSideColumnHeight = (function () {
+    var params = {};
+    $wrapper.each(function(index, el) {
+      params[$(el).parents('div').prop('id')] = $(el).height();
+    });
+    return params;
+  })();
+
+  // 侧边栏固定
+  function fixedSidebar () {
+    $(document).scrollTop() > sidebarOffsetTop ? element.addClass('fixed') : element.removeClass('fixed');
+  }
+
+  // 修正试题统计高度
+  function setStatsHeight () {
+    var winHeight = $(window).height();
+    var sidebarHeight = element.height();
+    var statsInnerHeight = $statsWrapper.height();
+
+    if (sidebarHeight > winHeight) {
+      $statsWrapper.css({
+        'overflow-x': 'auto',
+        'height': statsInnerHeight - (sidebarHeight - winHeight),
+      });
+    } else if ((sidebarHeight + (originSideColumnHeight.statsBox - statsInnerHeight)) < winHeight && statsInnerHeight !== 0) {
+      $statsWrapper.css({
+        'height': originSideColumnHeight.statsBox,
+      });
+    } else if (sidebarHeight < winHeight && statsInnerHeight !== 0) {
+      $statsWrapper.css({
+        'height': statsInnerHeight - (sidebarHeight - winHeight),
+      });
     }
-    return -1;
-}
+  }
 
-// 获取当前科目
-function getSubject(){
-	return ("undefined" !== typeof curSubject)?curSubject:{};
-}
+  // 侧边栏收起展开
+  (function foldUpSidebarColumn () {
 
-// 时间格式转换
-function dateFormat(fmt, date) {
-    if(!(date instanceof Date))
-        return;
-    var o = {
-        "M+": date.getMonth() + 1, // 月份
-        "d+": date.getDate(), //日
-        "H+": date.getHours(), //24小时制
-        "h+" : date.getHours()%12 == 0 ? 12 : date.getHours()%12, //12小时制 
-        "m+": date.getMinutes(), //分
-        "s+": date.getSeconds(), //秒
-        "q+": Math.floor((date.getMonth() + 3) / 3), //季度
-        "S": date.getMilliseconds()  //毫秒
-    };
-    if (/(y+)/.test(fmt))
-        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt))
-        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k])
-                            : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-}
+    var originHeight = {};
+    var isActive = true;
+    var speed = 200;
 
-// 执行字符串代码（暂不支持参数传json、数组）
-function execStrAsCode(str, res){
-	var _callback = str.match(/([\w|\.]+)(\((.*?)\))?/),
-		_func = _callback[1],
-		_fn = _func.split('.'),
-		_arg = _callback[3] ? _callback[3].split(',') : [];
-	if( _fn.length > 1 ){
-		_func = window;
-		$.each( _fn, function(i, f){
-			_func = _func[f];
-		} );
-	}else{
-		_func = window[_func]
-	}
-	_arg.push(res);
-	if( (typeof _func).toLowerCase() === 'function' ){
-		_func.apply(null, _arg);//继承
-	}
-}
+    $btnFold.on('click', function (event) {
 
-// 本地试题篮存储，在此修改存储格式
-function localBasket(subject,questions) {
-	var basketQlist = [];
-	for (var i = 0; i < questions.length; i++) {
-		basketQlist.push({
-			q_id: questions[i].q_id,
-			q_type: questions[i].q_type
-		});
-	}
+      if (isActive) {
+        var $sidebarColumn = $(this).parents().children('.wrapper');
+        var originHeight = originSideColumnHeight[$($(this).parents('div')[0]).prop('id')];
+        var winHeight = $(window).height();
+        var sideNewHeight = $('#sidebar').height();
 
-	if (!localStorage.basket_cacheObj)
-	{
-		localStorage.basket_cacheObj = JSON.stringify([{xd: subject.xd, xk: subject.xk, q_list: basketQlist}]);
-	}
-	else
-	{
-		var data_stored = JSON.parse(localStorage.basket_cacheObj);
-		for (var i = 0; i < data_stored.length; i++) {
-			if (data_stored[i].xd == subject.xd && data_stored[i].xk==subject.xk) {
-				data_stored[i].q_list = basketQlist;
-			}
-		}
-		localStorage.basket_cacheObj = JSON.stringify(data_stored);
-	}
-}
+        $sidebarColumn.height() == 0 ?
+          ($sidebarColumn.animate({'height': originHeight}, speed, setStatsHeight), $(this).text('收起'))
+          : ($sidebarColumn.animate({'height': '0'}, speed, setStatsHeight), $(this).text('展开'));
 
-// 生成试卷，试卷格式
-function makePaper(subject,qlist){
+        isActive = false;
+        setTimeout(function () {
+          isActive = true;
+        }, speed + 100);
+        
+      } // End if
 
-	var paper = {},
-		paperName = "paper-"+subject.xd+"-"+subject.xk;
-	paper.paperMain = qlist;
-	paper.author = "佚名";
-	paper.buildDate = dateFormat("yyyy-MM-dd H:m:s", new Date());
-	paper.caution = "1、填写答题卡的内容用2B铅笔填写2、提前 xx 分钟收取答题卡";
-	paper.id = Date.parse(new Date());
-	paper.subTitle = subject.xkName+"考试";
-	paper.subject = subject.xk;
-	paper.subjectCN = subject.xkName;
-	paper.timeDelay = 120;
-	paper.title = dateFormat("yyyy-MM-dd", new Date())+paper.subTitle;
-	paper.totalScore = 150;
+    });
+  })();
 
-	localStorage.setItem(paperName,JSON.stringify(paper));
+  window.addEventListener('load', setStatsHeight);
+  window.addEventListener('resize', setStatsHeight);
+  document.addEventListener('scroll', fixedSidebar);
 
-	window.location.href = "paper.html?xd="+subject.xd+"&xk="+subject.xk;
-}
-
+})($('#sidebar'));

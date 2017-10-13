@@ -66,18 +66,18 @@
 					<div class="q-footer clfix">
 						<div class="fl">
 							<a href="index.html" target="_blank" class="show-answer">
-								<span class="icon icon-eye"></span>查看解析
+								<span class="icon-main icon-eye"></span>查看解析
 							</a>
 							<a href="javascript:;" class="icon-btn">
-								<span class="icon icon-heart"></span>{{ q.isCollected?'已收藏':'收藏'}}
+								<span class="icon-main icon-heart"></span>{{ q.isCollected?'已收藏':'收藏'}}
 							</a>
 							<a href="javascript:;" class="icon-btn" v-on:click="correct">
-								<span class="icon icon-warn"></span>纠错
+								<span class="icon-main icon-warn"></span>纠错
 							</a>
 						</div>
 						<div class="fr">
 							<a href="#" class="icon-btn">
-								<span class="icon icon-download-g"></span>下载
+								<span class="icon-main icon-download-g"></span>下载
 							</a>
 							<a href="javascript:;" class="btn" :class="{'btn-grey':q.isBasket}" @click="toggleBasket($event,key)">
 								{{ q.isBasket?'-&nbsp;&nbsp;移除':'+&nbsp;&nbsp;选题' }}
@@ -103,7 +103,7 @@
 	<!-- 试卷蓝 -->
 	<div id="basket" class="basket" :class="{active:isActive}">
 	    <div class="basket-tit" @click="isActive = !isActive">
-	        <p><span class="icon icon-shopcart"></span>试题篮<span class="count">{{ questions.length }}</span></p>
+	        <p><span class="icon-main icon-shopcart"></span>试题篮<span class="count">{{ questions.length }}</span></p>
 	    </div>
 	    <div class="basket-con">
 	        <div class="basket-count">
@@ -113,7 +113,7 @@
                 <div class="baskrt-list">
                 	<p v-for="item in getList">
                 		{{ item.type }}：<span>{{ item.q_ids.length }}</span> 道
-                		<i class="icon icon-del" v-on:click="clearType(item)"></i>
+                		<i class="icon-main icon-del" v-on:click="clearType(item)"></i>
                 	</p>
                 </div>
 	        </div>
@@ -134,7 +134,8 @@
 
 <script src="../../static/js/jquery-2.1.1.min.js"></script>
 <script src="../../static/vendor/Layui/layui.js"></script>
-<script src="../../static/js/require.js" data-main="../../static/js/common"></script>
+<script src="../../static/js/common.js"></script>
+<script src="../../static/js/require.js" data-main="../../static/js/main"></script>
 <script type="text/javascript">
 	// 当前科目
 	curSubject = {

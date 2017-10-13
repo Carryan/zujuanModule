@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>组卷系统 | 试卷生成</title>
+
+  <link rel="stylesheet" type="text/css" href="../../static/vendor/Layui/css/layui.css" />
+  <link rel="stylesheet" href="../../static/css/common.css">
+  <link rel="stylesheet" href="../../static/css/paper.css">
+
+</head>
+<body>
+
+  <div class="header" id="header"></div>
+
+  <div class="breadcrumb">
+    <div class="container">
+      您的位置：
+      <a href="../Index/index.html">首页</a>
+      <span>当前页面</span>
+    </div>
+  </div>
+
+  <!-- 组卷 -->
+  <div v-cloak id="paper" class="builder">
+
+    <!-- 侧边栏选项 -->
+    <div id="sidebar" class="sidebar" v-if="Obj">
+      <div class="downbox">
+        <!-- <button class="dl-w icon" v-on:click="download"><span>下载试卷</span></button>
+        <button class="save icon" v-on:click="savePaper"><span>保存试卷</span></button> -->
+        <button class="dl-w" v-on:click="download"><span class="icon">下载试卷</span></button>
+        <button class="save" v-on:click="savePaper"><span class="icon">保存试卷</span></button>
+      </div>
+
+      <!-- 结构 -->
+      <div class="adjustment" id="checkBox">
+        <h4>页面结构调整<button class="btn-fold">收起</button></h4>
+        <div class="wrapper">
+          <div class="templates">
+            <span><input type="radio" name="template" value="standard" id="tmpStandard" v-model="Obj.template" v-on:click="toggleTemplate"><label for="tmpStandard">标准</label></span>
+            <span><input type="radio" name="template" value="exam" id="tmpExam" v-model="Obj.template" v-on:click="toggleTemplate"><label for="tmpExam">测试</label></span>
+            <span><input type="radio" name="template" value="practice" id="tmpPractice" v-model="Obj.template" v-on:click="toggleTemplate"><label for="tmpPractice">练习</label></span>
+          </div>
+          <div class="tmp-options">
+            <span><input type="checkbox" name="struct" value="sealine" id="stcSealing" v-model="Obj.style.sealine"><label for="stcSealing">密封线</label></span>
+            <span><input type="checkbox" name="struct" value="rating" id="stcRating" v-model="Obj.style.rating"><label for="stcRating">大题评分区</label></span>
+            <span><input type="checkbox" name="struct" value="maintitle" id="stcMainTitle" v-model="Obj.style.mainTitle"><label for="stcMainTitle">主标题</label></span>
+            <span><input type="checkbox" name="struct" value="subtitle" id="stcSubTitle" v-model="Obj.style.subTitle"><label for="stcSubTitle">副标题</label></span>
+            <span><input type="checkbox" name="struct" value="caution" id="stcCaution" v-model="Obj.style.caution"><label for="stcCaution">注意事项</label></span>
+            <!-- <span><input type="checkbox" name="struct" value="partvol" id="stcPartVol" v-model="Obj.style.partVol"><label for="stcPartVol">分卷</label></span> -->
+            <span><input type="checkbox" name="struct" value="timedelay" id="stcTimeDelay" v-model="Obj.style.timeDelay"><label for="stcTimeDelay">考试时间</label></span>
+            <!-- <span><input type="checkbox" name="struct" value="notice" id="stcNotice" v-model="Obj.style.notice"><label for="stcNotice">分卷注释</label></span> -->
+            <span><input type="checkbox" name="struct" value="examinee" id="stcExaminee" v-model="Obj.style.examinee"><label for="stcExaminee">考生填写</label></span>
+            <span><input type="checkbox" name="struct" value="partbig" id="stcPartBig" v-model="Obj.style.partBig"><label for="stcPartBig">分大题</label></span>
+            <span><input type="checkbox" name="struct" value="totalrate" id="stcTotalRate" v-model="Obj.style.totalRate"><label for="stcTotalRate">总评分</label></span>
+            <span><input type="checkbox" name="struct" value="bignotice" id="stcBigNotice" v-model="Obj.style.bigNotice"><label for="stcBigNotice">大题注释</label></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 统计 -->
+      <div class="stats" id="statsBox">
+        <h4>试题统计<button class="btn-fold">收起</button></h4>
+        <div class="wrapper">
+          <div class="wrapper-inner">
+            <div class="stats-opt">
+              分数：<span>{{ stats.totalScore }}</span>
+              题数：<span>{{ stats.amount }}</span>
+              难度：<span>{{ stats.difficulty }}</span>
+            </div>
+
+            <!-- 试题统计题目拖动区域 -->
+            <draggable class="cap-wrapper" v-bind:list="Obj.paperMain" v-on:start="dragging=true" v-on:end="dragging=false">
+              <div class="caplist dragitem" v-for="(element, outerIndex) in Obj.paperMain">
+                <h4>{{ toUpperNumber(outerIndex+1) }}、{{ element.typeCN }}</h4>
+                <draggable v-bind:list="element.questions" v-on:start="dragging=true" v-on:end="dragging=false">
+                  <span v-for="(item, index) in element.questions">{{ index+1 }}</span>
+                </draggable>
+                <div class="btnbox">
+                  <button class="nodrag" v-on:click="sortItem(element, outerIndex)">排序</button>
+                  <button class="nodrag" v-on:click="deleteItem(element, outerIndex)">删除</button>
+                </div>
+              </div>
+            </draggable>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-box">
+        <a class="button" href="picker.html">继续选题</a>
+      </div>
+    </div>
+
+
+
+    <!-- 试卷主体 -->
+    <div class="paper-main" id="paperMain" v-if="Obj">
+
+      <!-- 密封线 -->
+      <div class="sealine fl" id="sealine">
+        <div class="info"></div>
+      </div>
+
+      <div class="mainbox fr" v-bind:class="{ full: !Obj.style.sealine }" id="mainbox">
+
+        <!-- 试卷头部内容 -->
+        <div class="pheader">
+
+          <!-- 试卷标题 -->
+          <div class="inp title">
+            <h1 class="t main-title" id="mainTitle">
+              <span v-on:click="showTextBar">{{ Obj.title }}</span>
+              <input v-show="false" type="text" v-model="Obj.title">
+            </h1>
+            <h2 class="t sub-title" id="subTitle">
+              <span v-on:click="showTextBar">{{ Obj.subTitle }}</span>
+              <input v-show="false" type="text" v-model="Obj.subTitle">
+            </h2>
+          </div>
+
+          <!-- 时间、总分与命题人 -->
+          <div class="inp examinfo time-delay" id="timeDelay">
+            <div class="i">
+              考试时间：
+              <span v-on:click="showTextBar">{{ Obj.timeDelay }} </span>
+              <input v-show="false" type="text" v-model="Obj.timeDelay">
+              分钟；
+            </div>
+            <div class="i">
+              满分：
+              <span v-on:click="showTextBar">{{ Obj.totalScore }}</span>
+              <input v-show="false" type="text" v-model="Obj.totalScore">
+              分；
+            </div>
+            <div class="i">
+              命题人：
+              <span v-on:click="showTextBar">{{ Obj.author }}</span>
+              <input v-show="false" type="text" v-model="Obj.author">
+            </div>
+          </div>
+
+          <!-- 考生信息 -->
+          <div class="studinfo examinee" id="examinee">
+            学校：<span class="line"></span>
+            姓名：<span class="line"></span>
+            班级：<span class="line"></span>
+            考号：<span class="line"></span>
+          </div>
+
+          <!-- 试卷总评分 -->
+          <div class="totalcount total-rate" id="totalRate">
+            <table>
+              <tr><td>题号</td><td v-for="(item, index) in Obj.paperMain">{{ toUpperNumber(index+1) }}</td><td>总分</td></tr>
+              <tr><td>评分</td><td v-for="(item, index) in Obj.paperMain">&nbsp;</td><td>&nbsp;</td></tr>
+            </table>
+          </div>
+
+          <!-- 注意事项 -->
+          <div class="caution elp" id="caution">
+            <div class="fl" v-html="replaceLineFeed(Obj.caution)" v-on:click="showTextBar"></div>
+            <textarea v-show="false" name="caution" id="caution" v-model="Obj.caution"></textarea>
+          </div>
+
+        </div>
+
+        <!-- 试卷正文内容 -->
+        <div class="pbody">
+          <!-- 大题 -->
+          <div v-for="(element, outerIndex) in Obj.paperMain">
+
+            <!-- 大题头部信息 -->
+            <!-- <div class="inp pbody-h part-vol" id="partVol">
+              <h3>
+                <span v-on:click="showTextBar">{{ element.volumeName }}</span>
+                <input v-show="false" v-model="element.volumeName" type="text">
+              </h3>
+              <h4>
+                <span v-on:click="showTextBar">{{ element.volumeNotes }}</span>
+                <input v-show="false" v-model="element.volumeNotes" type="text">
+              </h4>
+            </div> -->
+
+            <div class="inp volcount part-big" id="partBig">
+              <table class="rating" id="rating">
+                <tr><td>阅卷人</td><td>&nbsp;</td></tr>
+                <tr><td>得分</td><td>&nbsp;</td></tr>
+              </table>
+              <h4>
+                {{ toUpperNumber(outerIndex+1) }}、
+                <span v-on:click="showTextBar">{{ element.typeCN }}</span>
+                <input v-show="false" v-model="element.typeCN" type="text">
+                <div class="inline big-notice" id="bigNotice">
+                  （共 {{ stats.eachVolume.len[outerIndex] }} 小题；共 {{ stats.eachVolume.score[outerIndex] }} 分）
+                </div>
+              </h4>
+              <div class="tools">
+                <a href="javascript:;" v-on:click="setMultipleScore(element, outerIndex, $event)">批量设定分数</a>
+                <a href="javascript:;" v-on:click="sortItem(element, outerIndex)">排序</a>
+                <a href="javascript:;" v-on:click="deleteItem(element, outerIndex)">删除</a>
+              </div>
+            </div>
+
+            <!-- 小题 -->
+            <draggable v-bind:list="element.questions" v-on:start="dragging=true" v-on:end="dragging=false" v-on:end="scrollToItem">
+              <div class="dragitem" v-for="(item, innerIndex) in element.questions">
+
+                <!-- 题目 -->
+                <div class="q-text">
+                  <span class="q-num">{{ item.seqNum }}.</span>
+                  <!-- <span class="q-num c-red">[diff: {{ item.difficulty }}]</span> -->
+                  <span class="q-score">（{{ item.score }}分）</span>
+                  <span v-html="item.question"></span>
+
+                  <!-- 图例 -->
+                  <div class="imgbox">
+                    <span v-for="image in item.images" v-if="item.images.length">
+                      <img :src=" '../../' + image.url " alt="img">
+                      {{ image.description }}
+                    </span>
+                  </div>
+
+                  <!-- 子问题 -->
+                  <div v-for="(sub, subIndex) in item.subQuestions" v-if="item.subQuestions">
+                    <span v-html="sub"></span>
+                  </div>
+                </div>
+
+                <!-- 选项 -->
+                <div class="options">
+                  <span v-for="(value, key) in item.options">{{ key }}、{{ value }}</span>
+                </div>
+
+                <!-- 答案 -->
+                <div class="answer" v-show="false">
+                  <div class="correct" v-if="item.correct">正确答案：{{ item.correct }}</div>
+                  <div class="analysis" v-if="item.analysis">答案解析：{{ item.analysis }}</div>
+                </div>
+
+                <!-- 功能按钮 -->
+                <div class="tools">
+                  <a href="javascript:;" v-on:click="setSingleScore(item, innerIndex, $event)">设定分数</a>
+                  <a href="javascript:;" v-on:click="changeItem(item, outerIndex, innerIndex)">换题</a>
+                  <a href="javascript:;" v-on:click="transfer(item, outerIndex, innerIndex)">转移</a>
+                  <a href="javascript:;" v-on:click="favorite(item)">收藏</a>
+                  <a href="javascript:;" v-on:click="feedback(item)">纠错</a>
+                  <a href="javascript:;" v-on:click="deleteItem(item, outerIndex, innerIndex)">删除</a>
+                </div>
+
+              </div>
+            </draggable>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    
+    <!-- 页面错误 -->
+    <div class="error" v-if="Obj === null">
+      <img src="../../static/image/no-result.png" alt="Paper Not Found">
+      <div>无法找到试卷</div>
+    </div>
+
+
+    <!-- 弹窗 -->
+    <div class="popbox-mask" v-bind:class="{ 'pb-show': Popbox.isShow }" v-show="Popbox.isShow" v-on:click="hidePopBox">
+      <div id="popBox" class="popbox" v-bind:class="Popbox.options.size" v-if="Popbox.isShow" v-on:click.stop>
+        <div class="icon close" v-on:click="hidePopBox"></div>
+        <div class="pb-t" v-if="Popbox.isShow">{{ Popbox.options.title }}<span v-if="Popbox.options.seqNum">：{{ Popbox.el.typeCN }} - 第{{ Popbox.options.seqNum }}小题</span></div>
+
+        <!-- 弹窗主内容 -->
+        <div class="pb-main" v-bind:class="Popbox.type">
+
+          <!-- 设定分数 -->
+          <div v-if="Popbox.type === 'single' || Popbox.type === 'multiple'">
+            {{ Popbox.el.typeCN }}：
+            <input type="text" id="setScore" v-model="Popbox.options.score" v-on:keyup="checkNumber">
+            分
+          </div>
+
+          <!-- 删除 -->
+          <div v-if="Popbox.type === 'delete'">
+            <span v-if="Popbox.el.seq">您确定要删除"<span>{{ Popbox.el.typeCN }}</span>"吗？</span>
+            <span v-if="Popbox.el.seqNum">您确定要删除"<span>第{{ Popbox.el.seqNum }}小题</span>"吗？</span>
+          </div>
+
+          <!-- 排序 -->
+          <div v-if="Popbox.type === 'sort'">
+            需要排序的大题：
+            <br>
+            <span v-for="element in Obj.paperMain">
+              <input type="checkbox" v-bind:id="element.type" v-bind:checked="Popbox.options.sortable[element.type]" v-model="Popbox.options.sortable[element.type]">
+              <label v-bind:for="element.type">{{ element.typeCN }}</label>
+            </span>
+            <br>
+            试题排序：
+            <br>
+            <span><input type="radio" name="sort" id="hardToEasy" value="hardToEasy" v-model="Popbox.options.sortType"><label for="hardToEasy">从难到易排序</label></span>
+            <span><input type="radio" name="sort" id="easyToHard" value="easyToHard" v-model="Popbox.options.sortType"><label for="easyToHard">从易到难排序</label></span>
+          </div>
+
+          <!-- 纠错 -->
+          <div v-if="Popbox.type === 'feedback'">
+            如果您发现试题可能有错误，感谢您给我们指出！
+            <textarea name="feedback" id="" cols="30" rows="10"></textarea>
+          </div>
+
+          <!-- 转移 -->
+          <div v-if="Popbox.type === 'transfer'">
+            将试题（{{ Popbox.el.typeCN }} - {{ Popbox.el.seqNum }}）转移到：
+            <br>
+            <span v-for="element in Obj.paperMain">
+              <input type="radio" name="transfer" v-bind:id="element.type" v-bind:value="element.type" v-model="Popbox.options.selected">
+              <label v-bind:for="element.type">{{ element.typeCN }}</label>
+            </span>
+          </div>
+
+          <!-- 保存 -->
+          <div v-if="Popbox.type === 'save'">
+            <div class="icon correct"></div>
+            <div>保存成功（{{ Popbox.options.times }}s后自动关闭）</div>
+            <div>提示：试卷保存之后，您可以到个人中心-历史组卷进行下载</div>
+          </div>
+
+          <!-- 下载 -->
+          <div v-if="Popbox.type === 'download'">
+            纸张大小：
+            <div class="paper-size">
+              <a class="icon a4" href="javascript:;">A4</a>
+              <a class="icon a3" href="javascript:;">A3（双栏）</a>
+            </div>
+            试卷类型：
+            <div class="paper-type">
+              <span><input type="radio" name="type" id="useForTeacher"><label for="useForTeacher">教师用卷（每题后面跟答案）</label></span>
+              <span><input type="radio" name="type" id="useForStudent"><label for="useForStudent">学生用卷（无答案）</label></span>
+              <span><input type="radio" name="type" id="useForStandard"><label for="useForStandard">标准用卷（答案在卷尾）</label></span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 弹窗按钮 -->
+        <div class="btn-box">
+          <button v-on:click="updatePaper">确定</button>
+          <button v-on:click="hidePopBox">取消</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- <div id="footer"></div> -->
+
+  <!-- load scripts -->
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../../static/vendor/vue/vue.min.js"></script>
+  <script src="../../static/vendor/sortable/sortable.js"></script>
+  <script src="../../static/vendor/vuedraggable/vuedraggable.js"></script>
+  <!-- <script src="../../static/js/paper.js"></script> -->
+  <script src="../../static/js/render.js"></script>
+  <script src="../../static/js/common.js"></script>
+  <!-- <script src="../../static/js/paper.js"></script> -->
+</body>
+</html>
