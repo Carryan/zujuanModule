@@ -32,6 +32,8 @@ $.ajax({
 // 修正密封线高度
 (function autoFixedBuilder (element) {
 
+	if (!element.length) { return; }
+	
   function fixSize () {
     setTimeout(function () {
       element.find('#sealine').height(element.find('#mainbox').height());
@@ -56,6 +58,8 @@ $.ajax({
 
 // 侧边栏
 (function autoFixedSidebar (element) {
+
+	if (!element.length) { return; }
 
   var $btnFold = $('button.btn-fold');
   var $wrapper = $('#sidebar div.wrapper');

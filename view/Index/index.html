@@ -13,10 +13,6 @@
 </head>
 <body>
 
-	<!--[if lte IE 9]>
-	<p>你正在使用<strong>过时</strong>的浏览器，请 <a href="http://browsehappy.com/" target="_blank" style="color:red;">升级浏览器</a> 以获得更好的体验！</p>
-	<![endif]-->
-
 	<div id="header"></div>
 
 	<div id="index2" class="container">
@@ -134,24 +130,25 @@
 					</div>
 				</div>
 
+				<!-- 试题列表 -->
 				<ul id="search-list" class="search-list" v-cloak>
 					<li v-for="(q,key) in questions" class="q-box">
 						<div class="q-header clfix">
 							<div class="fl">
-								<span>题型：{{ q.q_type }}</span><i class="line"></i>
-								<span>难易：{{ q.q_difficult_level }}</span><i class="line"></i>
-								<span>题类：{{ q.q_channel_type }}</span>
+								<span>题型：{{ q.type }}</span><i class="line"></i>
+								<span>难易：{{ q.difficult_level }}</span><i class="line"></i>
+								<span>题类：{{ q.channel_type }}</span>
 							</div>
 							<div class="fr">
-								<span class="q-times">组卷次数：{{ q.q_times }}</span>
+								<span class="q-times">组卷次数：{{ q.use }}</span>
 							</div>
 						</div>
 						<div class="q-content">
-							<question :order_num="(key+1)+'. '" :text="q.q_text" :options="q.options" :list="q.list"></question>
+							<question :order_num="(key+1)+'. '" :text="q.question" :options="q.options" :list="q.subQuestions"></question>
 						</div>
 						<div class="q-notice">
-							<span class="q-id">ID：{{ q.q_id }}</span>
-							<span class="q-from">来源：{{ q.q_source }}</span>
+							<span class="q-id">ID：{{ q.id }}</span>
+							<span class="q-from">来源：{{ q.source }}</span>
 						</div>
 						<div class="q-footer clfix">
 							<div class="fl">
@@ -161,7 +158,7 @@
 								<a href="javascript:;" class="icon-btn" @click="q.isCollected=!q.isCollected">
 									<span class="icon-main icon-heart"></span>{{ q.isCollected?'已收藏':'收藏'}}
 								</a>
-								<a href="javascript:;" class="icon-btn" v-on:click="correct(q.q_id)">
+								<a href="javascript:;" class="icon-btn" v-on:click="correct(q.id)">
 									<span class="icon-main icon-warn"></span>纠错
 								</a>
 							</div>
