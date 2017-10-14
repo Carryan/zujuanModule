@@ -90,12 +90,12 @@ define(['vue','question'],function(Vue){
 			getList: function() {
 				this.list = []; 
 				for (var i = 0; i < this.questions.length; i++) {
-					var position = findElem(this.list,'type',this.questions[i].type);
+					var position = findElem(this.list,'typeCN',this.questions[i].typeCN);
 					if (position>=0) {
 						this.list[position].q_ids.push(this.questions[i].id);
 					}else{
 						this.list.push({
-							type:this.questions[i].type, q_ids: [this.questions[i].id]
+							typeCN:this.questions[i].typeCN, q_ids: [this.questions[i].id]
 						});
 					}
 				}
@@ -113,7 +113,7 @@ define(['vue','question'],function(Vue){
 			},
 			// 清空题型
 			clearType: function(item){
-				layer.confirm('你确定要删除"'+item.type+'"吗?', {title:'删除',area:['340px', '295px'],skin:'layer-sm',resize:false}, function(index){
+				layer.confirm('你确定要删除"'+item.typeCN+'"吗?', {title:'删除',area:['340px', '295px'],skin:'layer-sm',resize:false}, function(index){
 				  	search_list.delQuestion(item.q_ids);
 				  	layer.close(index);
 				});     

@@ -184,7 +184,7 @@ function localBasket(subject,questions) {
 	for (var i = 0; i < questions.length; i++) {
 		basketQlist.push({
 			id: questions[i].id,
-			type: questions[i].type
+			typeCN: questions[i].typeCN
 		});
 	}
 

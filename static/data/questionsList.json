@@ -1,6 +1,6 @@
 [{
 	"id": 1,
-	"type": "选择题",
+	"typeCN": "选择题",
 	"subject": "语文",
 	"difficult_level": "普通",
 	"channel_type": "高考",
@@ -17,7 +17,7 @@
 },
 {
 	"id": 5,
-	"type": "选择题",
+	"typeCN": "选择题",
 	"subject": "语文",
 	"difficult_level": "普通",
 	"channel_type": "高考",
@@ -34,7 +34,7 @@
 },
 {
 	"id": 2,
-	"type": "选择题",
+	"typeCN": "选择题",
 	"subject": "语文",
 	"difficult_level": "困难",
 	"channel_type": "月考",
@@ -59,7 +59,7 @@
 },
 {
 	"id": 3,
-	"type": "填空题",
+	"typeCN": "填空题",
 	"subject": "语文",
 	"difficult_level": "容易",
 	"channel_type": "模拟考",
@@ -71,7 +71,7 @@
 },
 {
 	"id": 4,
-	"type": "解答题",
+	"typeCN": "解答题",
 	"subject": "语文",
 	"difficult_level": "容易",
 	"channel_type": "模拟考",

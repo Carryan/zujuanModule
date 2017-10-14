@@ -45,7 +45,7 @@
 					<li v-for="(q,key) in questions" class="q-box">
 						<div class="q-header clfix">
 							<div class="fl">
-								<span>题型：{{ q.type }}</span><i class="line"></i>
+								<span>题型：{{ q.typeCN }}</span><i class="line"></i>
 								<span>难易：{{ q.difficult_level }}</span><i class="line"></i>
 								<span>题类：{{ q.channel_type }}</span>
 							</div>
@@ -109,7 +109,7 @@
 	            </div>
                 <div class="baskrt-list">
                 	<p v-for="item in getList">
-                		{{ item.type }}：<span>{{ item.q_ids.length }}</span> 道
+                		{{ item.typeCN }}：<span>{{ item.q_ids.length }}</span> 道
                 		<i class="icon-main icon-del" v-on:click="clearType(item)"></i>
                 	</p>
                 </div>
