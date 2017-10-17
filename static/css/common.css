@@ -1,6 +1,6 @@
 /*reset*/
 html, body {
-	font-family: MicrosoftYaHei;
+	font-family: Microsoft YaHei;
   font-size: 14px;
 	color: #333333;
 }
@@ -398,7 +398,7 @@ body {
 .icon-paper {
   width: 14px;
   height: 16px;
-  background-position: -18px -16px;
+  background-position: 0 0;
 }
 
 
@@ -505,4 +505,15 @@ body {
 }
 .position .sp-line {
   margin: 0px 4px;
+}
+
+
+/*题目样式*/
+.MathJye table {
+	vertical-align: middle;
+	display: inline-table;
+	margin: 0 3px;
+}
+.MathJye table td {
+	text-align: center;
 }
