@@ -129,12 +129,7 @@ function findElem(arrayToSearch,attr,val){
     return -1;
 }
 
-// 获取当前科目
-function getSubject(){
-	return ("undefined" !== typeof curSubject)?curSubject:{};
-}
-
-// 时间格式转换
+// 时间格式转换，fmt如：yyyy-MM-dd HH:mm:ss
 function dateFormat(fmt, date) {
     if(!(date instanceof Date))
         return;
@@ -177,13 +172,19 @@ function execStrAsCode(str, res){
 	}
 }
 
+
+// 获取当前科目
+function getSubject(){
+	return ("undefined" !== typeof curSubject)?curSubject:{};
+}
+
 // 本地试题篮存储，在此修改存储格式
 function localBasket(subject,questions) {
 	var basketQlist = [];
 	for (var i = 0; i < questions.length; i++) {
 		basketQlist.push({
-			q_id: questions[i].q_id,
-			q_type: questions[i].q_type
+			id: questions[i].id,
+			typeCN: questions[i].typeCN
 		});
 	}
 
@@ -194,13 +195,28 @@ function localBasket(subject,questions) {
 	else
 	{
 		var data_stored = JSON.parse(localStorage.basket_cacheObj);
-		for (var i = 0; i < data_stored.length; i++) {
-			if (data_stored[i].xd == subject.xd && data_stored[i].xk==subject.xk) {
-				data_stored[i].q_list = basketQlist;
+		if(!data_stored.length){
+			data_stored.push({xd: subject.xd, xk: subject.xk, q_list: basketQlist});
+		}else{
+			for (var i = 0; i < data_stored.length; i++) {
+				if (data_stored[i].xd == subject.xd && data_stored[i].xk==subject.xk) {
+					data_stored[i].q_list = basketQlist;
+				}
 			}
 		}
 		localStorage.basket_cacheObj = JSON.stringify(data_stored);
 	}
+}
+
+// 删除本地试题篮
+function delLocalBasket(subject) {
+	var data_stored = JSON.parse(localStorage.basket_cacheObj);
+	for (var i = 0; i < data_stored.length; i++) {
+		if (data_stored[i].xd == subject.xd && data_stored[i].xk==subject.xk) {
+			data_stored.splice(i,1);
+		}
+	}
+	localStorage.basket_cacheObj = JSON.stringify(data_stored);
 }
 
 // 生成试卷，试卷格式
@@ -225,4 +241,10 @@ function makePaper(subject,qlist){
 	window.location.href = "paper.html?xd="+subject.xd+"&xk="+subject.xk;
 
 	console.log(localStorage.getItem(paperName));
+}
+
+// 删除本地试卷
+function delLocalPaper(subject){
+	var paperName = "paper-"+subject.xd+"-"+subject.xk;
+	localStorage.removeItem(paperName);
 }

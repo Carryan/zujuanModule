@@ -11,7 +11,7 @@ define(['vue'],function(Vue){
 						'</div>'+
 					'</div>'+
 					'<div v-if="list" v-for="(item,index) in list" class="q-item">'+
-						'<question-item :order_num="\'(\'+(index+1)+\')、\'" :text="item.q_text" :options="item.options" :list="item.list"></question-item>'+
+						'<question-item :order_num="\'(\'+(index+1)+\')、\'" :text="item.question" :options="item.options" :list="item.subQuestions"></question-item>'+
 					'</div>'+
 				'</div>',
 		mounted: function () {

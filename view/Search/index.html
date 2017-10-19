@@ -13,10 +13,6 @@
 </head>
 <body>
 
-	<!--[if lte IE 9]>
-	<p>你正在使用<strong>过时</strong>的浏览器，请 <a href="http://browsehappy.com/" target="_blank" style="color:red;">升级浏览器</a> 以获得更好的体验！</p>
-	<![endif]-->
-
 	<div id="header"></div>
 
 	<div class="container">
@@ -44,52 +40,53 @@
 
 		<div class="row">
 
-			<ul id="search-list" class="search-list">
-				<li v-for="(q,key) in questions" class="q-box">
-					<div class="q-header clfix">
-						<div class="fl">
-							<span>题型：{{ q.q_type }}</span><i class="line"></i>
-							<span>难易：{{ q.q_difficult_level }}</span><i class="line"></i>
-							<span>题类：{{ q.q_channel_type }}</span>
+			<!-- 试题列表 -->
+				<ul id="search-list" class="search-list" v-cloak>
+					<li v-for="(q,key) in questions" class="q-box">
+						<div class="q-header clfix">
+							<div class="fl">
+								<span>题型：{{ q.typeCN }}</span><i class="line"></i>
+								<span>难易：{{ q.difficult_level }}</span><i class="line"></i>
+								<span>题类：{{ q.channel_type }}</span>
+							</div>
+							<div class="fr">
+								<span class="q-times">组卷次数：{{ q.use }}</span>
+							</div>
 						</div>
-						<div class="fr">
-							<span class="q-times">组卷次数：{{ q.q_times }}</span>
+						<div class="q-content">
+							<question :order_num="(key+1)+'. '" :text="q.question" :options="q.options" :list="q.subQuestions"></question>
 						</div>
-					</div>
-					<div class="q-content">
-						<question :order_num="(key+1)+'. '" :text="q.q_text" :options="q.options" :list="q.list"></question>
-					</div>
-					<div class="q-notice">
-						<span class="q-id">ID：{{ q.q_id }}</span>
-						<span class="q-from">来源：{{ q.q_source }}</span>
-					</div>
-					<div class="q-footer clfix">
-						<div class="fl">
-							<a href="index.html" target="_blank" class="show-answer">
-								<span class="icon-main icon-eye"></span>查看解析
-							</a>
-							<a href="javascript:;" class="icon-btn">
-								<span class="icon-main icon-heart"></span>{{ q.isCollected?'已收藏':'收藏'}}
-							</a>
-							<a href="javascript:;" class="icon-btn" v-on:click="correct">
-								<span class="icon-main icon-warn"></span>纠错
-							</a>
+						<div class="q-notice">
+							<span class="q-id">ID：{{ q.id }}</span>
+							<span class="q-from">来源：{{ q.source }}</span>
 						</div>
-						<div class="fr">
-							<a href="#" class="icon-btn">
-								<span class="icon-main icon-download-g"></span>下载
-							</a>
-							<a href="javascript:;" class="btn" :class="{'btn-grey':q.isBasket}" @click="toggleBasket($event,key)">
-								{{ q.isBasket?'-&nbsp;&nbsp;移除':'+&nbsp;&nbsp;选题' }}
-							</a>
+						<div class="q-footer clfix">
+							<div class="fl">
+								<a href="index.html" target="_blank" class="show-answer">
+									<span class="icon-main icon-eye"></span>查看解析
+								</a>
+								<a href="javascript:;" class="icon-btn" @click="q.isCollected=!q.isCollected">
+									<span class="icon-main icon-heart"></span>{{ q.isCollected?'已收藏':'收藏'}}
+								</a>
+								<a href="javascript:;" class="icon-btn" v-on:click="correct(q.id)">
+									<span class="icon-main icon-warn"></span>纠错
+								</a>
+							</div>
+							<div class="fr">
+								<a href="#" class="icon-btn">
+									<span class="icon-main icon-download-g"></span>下载
+								</a>
+								<a href="javascript:;" class="btn" :class="{'btn-grey':q.isBasket}" @click="toggleBasket($event,key)">
+									{{ q.isBasket?'-&nbsp;&nbsp;移除':'+&nbsp;&nbsp;选题' }}
+								</a>
+							</div>
 						</div>
+					</li>
+					<div class="null-page" v-if="questions.length==0">
+						<img src="../../static/image/icon/null-page.png">
+						<p>该分类下暂无资源，请尝试其他分类。</p>
 					</div>
-				</li>
-				<div class="null-page" v-if="questions.length==0">
-					<img src="../../static/image/icon/null-page.png">
-					<p>找不到相关结果，请尝试其他分类</p>
-				</div>
-			</ul>
+				</ul>
 
 			<div id="laypage" class="laypage text-center" data-total="15" data-curr="3" data-link="#?p=_id_" ></div>
 
@@ -101,7 +98,7 @@
 	<div id="footer"></div>
 
 	<!-- 试卷蓝 -->
-	<div id="basket" class="basket" :class="{active:isActive}">
+	<div id="basket" class="basket" :class="{active:isActive}" v-cloak>
 	    <div class="basket-tit" @click="isActive = !isActive">
 	        <p><span class="icon-main icon-shopcart"></span>试题篮<span class="count">{{ questions.length }}</span></p>
 	    </div>
@@ -112,13 +109,13 @@
 	            </div>
                 <div class="baskrt-list">
                 	<p v-for="item in getList">
-                		{{ item.type }}：<span>{{ item.q_ids.length }}</span> 道
+                		{{ item.typeCN }}：<span>{{ item.q_ids.length }}</span> 道
                 		<i class="icon-main icon-del" v-on:click="clearType(item)"></i>
                 	</p>
                 </div>
 	        </div>
 	        <div class="basket-foot">
-	            <a class="btn" href="javascript:;" v-on:click="buildPaper">生成试卷</a>
+	            <a class="btn" href="javascript:;" v-on:click="buildPaper()">生成试卷</a>
 	        </div>
 	    </div>
 	</div>

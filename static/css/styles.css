@@ -278,6 +278,30 @@
 	color: red;
 }
 
+/**********************答案解析**********************/
+.question-answer {
+	min-height: 650px;
+}
+.question-answer .search-list .q-box:hover {
+	border: none;
+	margin: 0px 0px 20px;
+}
+.question-answer  .search-list .split-line {
+	border-bottom: 1px dashed #EBEBEC;
+	margin-bottom: 15px;
+}
+.q-answer {
+	position: relative;
+	margin-bottom: 20px;
+	padding-left: 55px;
+}
+.q-answer .label {
+	position: absolute;
+	left: -5px;
+	top: 0;
+	font-weight: bolder;
+}
+
 
 /**********************个人中心**********************/
 .center-left {

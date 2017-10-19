@@ -18,7 +18,7 @@ define(['vue','question'],function(Vue){
 					basket.questions.push(question);
 					basket.updateLocalBasket();
 				}else{
-					var q_ids = [question.q_id];
+					var q_ids = [question.id];
 					this.delQuestion(q_ids);
 				}
 			},
@@ -34,7 +34,7 @@ define(['vue','question'],function(Vue){
 			// 移除已选试题,q_ids为要移除的试题的id数组
 			delQuestion: function(q_ids){
 				for (var i = 0; i < q_ids.length; i++) {
-					var postion = findElem(basket.questions,'q_id',q_ids[i]);
+					var postion = findElem(basket.questions,'id',q_ids[i]);
 					if (postion>=0) {
 						basket.questions.splice(postion,1);
 					}
@@ -66,7 +66,7 @@ define(['vue','question'],function(Vue){
 			checkBacketQs: function(b_qids) {
 				var _this = this;
 				_this.questions.forEach(function(v){
-					if (b_qids.indexOf(v.q_id)>=0) {
+					if (b_qids.indexOf(v.id)>=0) {
 						_this.$set(v, 'isBasket', true);
 					}else{
 						_this.$set(v, 'isBasket', false);
@@ -90,12 +90,12 @@ define(['vue','question'],function(Vue){
 			getList: function() {
 				this.list = []; 
 				for (var i = 0; i < this.questions.length; i++) {
-					var position = findElem(this.list,'type',this.questions[i].q_type);
+					var position = findElem(this.list,'typeCN',this.questions[i].typeCN);
 					if (position>=0) {
-						this.list[position].q_ids.push(this.questions[i].q_id);
+						this.list[position].q_ids.push(this.questions[i].id);
 					}else{
 						this.list.push({
-							type:this.questions[i].q_type, q_ids: [this.questions[i].q_id]
+							typeCN:this.questions[i].typeCN, q_ids: [this.questions[i].id]
 						});
 					}
 				}
@@ -113,7 +113,7 @@ define(['vue','question'],function(Vue){
 			},
 			// 清空题型
 			clearType: function(item){
-				layer.confirm('你确定要"'+item.type+'"吗?', {title:'删除',area:['340px', '295px'],skin:'layer-sm',resize:false}, function(index){
+				layer.confirm('你确定要删除"'+item.typeCN+'"吗?', {title:'删除',area:['340px', '295px'],skin:'layer-sm',resize:false}, function(index){
 				  	search_list.delQuestion(item.q_ids);
 				  	layer.close(index);
 				});     
@@ -172,7 +172,7 @@ define(['vue','question'],function(Vue){
 	function getQid(questions){
 		var q_ids = [];
 		for (var i = 0; i < questions.length; i++) {
-			q_ids.push(questions[i].q_id);
+			q_ids.push(questions[i].id);
 		}
 		return q_ids;
 	}
