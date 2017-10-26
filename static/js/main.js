@@ -45,6 +45,7 @@ var Modules = {
 				// 检查题目是否在试题篮
 				var b_qids = qb.getQid(qb.basket.questions);
 				qb.search_list.checkBacketQs(b_qids);
+				qb.basket.isActive = false;
 				// 点击全选
 				(function(obj){
 					if (!obj.length) { return ; }
