@@ -17,6 +17,7 @@ define(['vue','question'],function(Vue){
 					// 更新数据
 					basket.questions.push(question);
 					basket.updateLocalBasket();
+					if (!basket.isActive) {basket.isActive=true}
 				}else{
 					var q_ids = [question.id];
 					this.delQuestion(q_ids);
@@ -28,6 +29,7 @@ define(['vue','question'],function(Vue){
 					if (this.questions[i].isBasket===false) {
 						basket.questions.push(this.questions[i]);
 						basket.updateLocalBasket();
+						if (!basket.isActive) {basket.isActive=true}
 					}
 				}
 			},
