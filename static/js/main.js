@@ -64,23 +64,25 @@ var Modules = {
 		elem: "#laypage",
 		fun: function(){
 			var ob = $("#laypage");
-			layui.use(['laypage'], function(){
+			layui.use('laypage', function(){
 				var laypage = layui.laypage;
 				var pages = ob.attr('data-total'),
 		          	curr = ob.attr('data-curr'),
-		          	link = ob.attr('data-link');
-		      	laypage({
-		        	cont: 'laypage'
-		        	,pages: pages
-		        	,curr: curr
-		        	,skin: '#1c7fe2'
+					link = ob.attr('data-link'),
+					limit = ob.attr('data-limit') || 5;
+				laypage.render({
+					elem: 'laypage'
+					,count: pages * limit
+					,curr: curr
+					,limit: limit
+					,theme: '#1c7fe2'
 		        	,jump: function(obj, first){
 		          		var curr = obj.curr;
 		          		if(!first){
 		            		window.location.href = "?p="+curr+link;
 		          		}
 		        	}
-		      	});
+				});
 			});
 		}
 	},
@@ -89,7 +91,7 @@ var Modules = {
 		elem: ".layui-form",
 		fun: function(){
 			layui.use(['form'], function(){
-				form = layui.form();
+				form = layui.form;
 				// ajax表单提交
 				form.on('submit(ajaxSubmit)', function(data){
 					var _action = $(data.form).prop('action'),

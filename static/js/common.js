@@ -25,6 +25,32 @@ $.ajax({
 
 })($(".subject-select"));
 
+//日期选择器
+(function ($date) {
+  if (!$date[0]) return;
+  layui.use('laydate', function () {
+    var laydate = layui.laydate;
+    $date.each(function () {
+      
+      var $this = $(this),
+        format = $this.attr('format') || 'yyyy-MM-dd',
+        type = 'date';
+      $.each(['time', 'month', 'year', 'datetime'], function (i, el) {
+        if ($this.is('.js-' + el)) {
+          type = el;
+          return false;
+        }
+      });
+      laydate.render({
+        elem: this
+        , theme: '#1c7fe2'
+        , type: type
+        , format: format
+      });
+    });
+  });
+})($('input.js-date, input.js-year, input.js-time, input.js-month, input.js-datetime'));
+
 
 
 /*********************组卷页*************************/ 

@@ -16,8 +16,47 @@
 	<div id="header"></div>
 
 	<div id="index2" class="container">
+
+		<div class="position">
+			您的位置：
+			<a href="../Index/index.html">首页</a>
+			<span class="sp-line">></span>
+			<a href="#">组卷中心</a>
+		</div>
+
+		<div class="index-top-head clfix">
+			<div class="fl">
+				<div class="tab">
+					<a href="../Index/index.html" class="active">按章节</a>
+					<a href="../Index/index.html">按知识点</a>
+				</div>
+			</div>
+			<div class="fr">
+				<form class="search-form" action="../Search/index.html">
+					<input type="text" name="keywords" autocomplete="off" placeholder="搜索试题" required>
+					<button type="submit">
+						<i class="fontF icon-search"></i>
+					</button>
+				</form>
+				<a href="../Index/history.html"><i class="fontF icon-history"></i>历史组卷</a>
+			</div>
+		</div>
 		
 		<div class="select-box index-top">
+			<div class="select-item">
+				<label>学段：</label>
+				<a class="active" href="">初中</a>
+				<a href="#">小学</a>
+			</div>
+			<div class="select-item">
+				<label>科目：</label>
+				<a class="active" href="">语文</a>
+				<a href="#">数学</a>
+				<a href="#">英语</a>
+				<a href="#">物理</a>
+				<a href="#">化学</a>
+				<a href="#">生物</a>
+			</div>
 			<div class="select-item">
 				<label>教版：</label>
 				<a class="active" href="">人教版</a>
@@ -32,54 +71,98 @@
 			</div>
 			<div class="select-item">
 				<label>年级：</label>
-				<a class="active" href="">七年级上册</a>
-				<a href="#">七年级下册</a>
-				<a href="#">八年级上册</a>
-				<a href="#">八年级下册</a>
-				<a href="#">九年级上册</a>
-				<a href="#">九年级下册</a>
+				<a class="active" href="">七年级</a>
+				<a href="#">七年级</a>
+				<a href="#">八年级</a>
+				<a href="#">八年级</a>
+				<a href="#">九年级</a>
+				<a href="#">九年级</a>
 			</div>
 		</div>
 
 		<div class="row">
 			
 			<div class="index-left fl">
-				<div class="title">选择章节</div>
+				<div class="title">语文人教版七年级</div>
 				<ul id="treeview" class="index-tree">
-					<li class="open"><a href="#">第一单元</a>
+					<li class="open">
+						<a href="#">上册</a>
 						<ul>
-							<li class="open"><a href="#">阅读</a>
+							<li class="open">
+								<a href="#">第一单元</a>
 								<ul>
-									<li><a href="#">第一课 散步</a></li>
-									<li class="active"><a href="#">第二课 秋天的怀念</a></li>
-									<li><a href="#">第三课 散文诗两首 -- 散文诗两首</a></li>
+									<li class="open">
+										<a href="#">阅读</a>
+										<ul>
+											<li>
+												<a href="#">第一课 散步</a>
+											</li>
+											<li class="active">
+												<a href="#">第二课 秋天的怀念</a>
+											</li>
+											<li>
+												<a href="#">第三课 散文诗两首 -- 散文诗两首</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a href="#">第二单元</a>
+								<ul>
+									<li>
+										<a href="#">第一课 散步</a>
+									</li>
+									<li>
+										<a href="#">第一课 散步</a>
+									</li>
+									<li>
+										<a href="#">第一课 散步</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a href="#">第三单元</a>
+								<ul>
+									<li>
+										<a href="#">第一课 散步</a>
+									</li>
+									<li>
+										<a href="#">第一课 散步</a>
+									</li>
+									<li>
+										<a href="#">第一课 散步</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a href="#">第四单元</a>
+								<ul>
+									<li>
+										<a href="#">第一课 散步</a>
+									</li>
+									<li>
+										<a href="#">第一课 散步</a>
+									</li>
+									<li>
+										<a href="#">第一课 散步</a>
+									</li>
 								</ul>
 							</li>
 						</ul>
 					</li>
-					<li><a href="#">第二单元</a>
+					<li>
+						<a href="#">下册</a>
 						<ul>
-							<li><a href="#">阅读</a>
-								<ul>
-									<li><a href="#">第一课 散步</a></li>
-									<li><a href="#">第二课 秋天的怀念</a></li>
-									<li><a href="#">第三课 散文诗两首</a></li>
-								</ul>
+							<li>
+								<a href="#">第一单元</a>
 							</li>
-						</ul>
-					</li>
-					<li><a href="#">第三单元</a>
-						<ul>
-							<li><a href="#">第一课 散步</a></li>
-							<li><a href="#">第一课 散步</a></li>
-							<li><a href="#">第一课 散步</a></li>
-						</ul>
-					</li>
-					<li><a href="#">第四单元</a>
-						<ul>
-							<li><a href="#">第一课 散步</a></li>
-							<li><a href="#">第一课 散步</a></li>
-							<li><a href="#">第一课 散步</a></li>
+							<li>
+								<a href="#">第二单元</a>
+							</li>
+							<li>
+								<a href="#">第三单元</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -116,13 +199,19 @@
 						<a href="#">学业考试</a>
 						<a href="#">其他</a>
 					</div>
+					<div class="select-item">
+						<label>来源：</label>
+						<a class="active" href="">全部</a>
+						<a href="#">本校</a>
+						<a href="#">我的收藏</a>
+					</div>
 				</div>
 
 				<div class="sort clfix">
 					<div class="fl">
 						<span>排序：</span>
-						<a href="javascript:;" class="active">时间 &uarr;</a>
-                    	<a href="javascript:;" class="">组卷次数 &uarr;</a>
+						<a href="javascript:;" class="active">时间 &darr;</a>
+                    	<a href="javascript:;" class="">综合组卷次数 &darr;</a>
 					</div>
 					<div class="fr">
 						<span>共找到：<strong>464</strong> 题</span>
@@ -140,35 +229,35 @@
 								<span>题类：{{ q.channel_type }}</span>
 							</div>
 							<div class="fr">
-								<span class="q-times">组卷次数：{{ q.use }}</span>
+								<span class="q-from">来源：{{ q.source }}</span>
+								
 							</div>
 						</div>
 						<div class="q-content">
 							<question :order_num="(key+1)+'. '" :text="q.question" :options="q.options" :list="q.subQuestions"></question>
 						</div>
-						<div class="q-notice">
-							<span class="q-id">ID：{{ q.id }}</span>
-							<span class="q-from">来源：{{ q.source }}</span>
-						</div>
 						<div class="q-footer clfix">
 							<div class="fl">
-								<!-- <a href="javascript:;" class="icon-btn" @click="q.isCollected=!q.isCollected">
-									<span class="icon-main icon-heart"></span>{{ q.isCollected?'已收藏':'收藏'}}
-								</a>
-								<a href="javascript:;" class="icon-btn" v-on:click="correct(q.id)">
-									<span class="icon-main icon-warn"></span>纠错
-								</a> -->
 								<a href="javascript:;" class="btn" :class="{'btn-grey':q.isBasket}" @click="toggleBasket($event,key)">
 									{{ q.isBasket?'-&nbsp;&nbsp;移除':'+&nbsp;&nbsp;选题' }}
 								</a>
 								<a href="answer.html" target="_blank" class="show-answer">
 									<span class="icon-main icon-eye"></span>查看解析
 								</a>
+								<a href="javascript:;" class="icon-btn" @click="q.isCollected=!q.isCollected">
+									<span class="icon-main icon-heart"></span>{{ q.isCollected?'已收藏':'收藏'}}
+								</a>
+								<a href="#" class="icon-btn">
+									<span class="icon-main icon-download-g"></span>下载
+								</a>
+								<a href="javascript:;" class="icon-btn" v-on:click="correct(q.id)">
+									<span class="icon-main icon-warn"></span>纠错
+								</a>
+								<span class="q-id">ID：{{ q.id }}</span>
 							</div>
 							<div class="fr">
-								<!-- <a href="#" class="icon-btn">
-									<span class="icon-main icon-download-g"></span>下载
-								</a> -->
+								<span class="q-times">平台综合使用：<span>{{ q.use_all }}</span></span>
+								<span class="q-times">个人使用：<span>{{ q.use_person }}</span></span>
 							</div>
 						</div>
 					</li>
@@ -192,12 +281,13 @@
 	<!-- 试卷蓝 -->
 	<div id="basket" class="basket" :class="{active:isActive}" v-cloak>
 	    <div class="basket-tit" @click="isActive = !isActive">
-	        <p><span class="icon-main icon-shopcart"></span>试题篮<span class="count">{{ questions.length }}</span></p>
+			<p><span class="icon-main icon-shopcart"></span>试题篮<span class="count">{{ questions.length }}</span></p>
 	    </div>
 	    <div class="basket-con">
 	        <div class="basket-count">
 	        	<div class="basket-head">
-	                共计：（<span>{{ questions.length }}</span>）道题
+					共计: ( <span>{{ questions.length }}</span> ) 道题
+					<a href="javascript:;" v-on:click="clearBasket()">清空</a>
 	            </div>
                 <div class="baskrt-list">
                 	<p v-for="item in getList">

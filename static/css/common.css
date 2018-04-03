@@ -398,9 +398,28 @@ body {
 .icon-paper {
   width: 14px;
   height: 16px;
-  background-position: 0 0;
+  background-position: -18px -16px;
 }
 
+/*面包屑*/
+.position {
+  color: #999;
+  font-size: 12px;
+  padding: 15px 0px;
+}
+.position a {
+  color: #999;
+  font-size: 12px;
+  display: inline-block;
+  vertical-align: text-bottom;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.position .sp-line {
+  margin: 0px 2px;
+}
 
 /*换页*/
 .laypage .layui-laypage a, .laypage .layui-laypage span {
@@ -432,82 +451,6 @@ body {
 }
 
 
-/*模态框*/
-.layui-layer .layui-layer-title{
-  background:#f2f2f2; 
-  color: #333; 
-  font-size: 16px;
-  height: 57px;
-  line-height: 57px;
-}
-.layui-layer .layui-layer-content {
-  height: auto !important;
-}
-.layui-layer .layui-layer-btn{
-  text-align: center;
-}
-.layui-layer .layui-layer-btn a{
-  padding: 4px 28px;
-  border-color: #1C7FE2;
-  color: #1C7FE2;
-}
-.layui-layer .layui-layer-btn .layui-layer-btn0 {
-  background-color: #1C7FE2;
-  color: #fff;
-}
-.layer-primary .layui-layer-btn{
-  margin-top: -10px;
-}
-.layer-primary .layui-layer-btn a{
-  margin-top: 0;
-}
-.layer-sm .layui-layer-content, .layui-layer-dialog.layer-sm .layui-layer-content {
-  box-sizing: border-box;
-  text-align: center;
-  padding-top: 65px;
-  padding-bottom: 50px;
-}
-.layer-sm .layui-layer-btn {
-  padding-top: 10px;
-}
-.correct-box {
-  display: none;
-  padding: 18px 24px 24px 29px;
-  height: 100%;
-  box-sizing: border-box;
-}
-.correct-box > p {
-  margin-bottom: 15px;
-}
-.correct-box form textarea {
-  width: 437px;
-  height: 171px;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-
-/*面包屑*/
-.position {
-  color: #999;
-  font-size: 12px;
-  padding: 15px 0px;
-}
-.position a {
-  color: #666;
-  font-size: 12px;
-  display: inline-block;
-  vertical-align: text-bottom;
-  max-width: 260px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.position .sp-line {
-  margin: 0px 4px;
-}
-
-
 /*题目样式*/
 .MathJye table {
 	vertical-align: middle;
@@ -516,4 +459,99 @@ body {
 }
 .MathJye table td {
 	text-align: center;
+}
+
+/* 搜索框 */
+.search-form, .search-form * {
+  box-sizing: border-box;
+}
+.search-form {
+  width:257px;
+  height:36px;
+  border: 1px solid #3399FF;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.search-form input {
+  height: 100%;
+  line-height: 100%;
+  width: 210px;
+  border: 0;
+  padding: 0 10px;
+}
+.search-form [type="submit"] {
+  position: absolute;
+  width: 45px;
+  height: 36px;
+  background-color: #3399FF;
+  border: 0;
+  cursor: pointer;
+  right: 0;
+  top: 0;
+}
+.search-form [type="submit"] i {
+  color: #fff;
+  font-size: 18px;
+}
+
+.index-top-head .search-form {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 80px;
+}
+.index-top-head .fr a {
+  font-size: 16px;
+  color: #333;
+}
+.index-top-head .fr a i {
+  font-size: 18px;
+  color: #1C7FE2;
+  margin-right: 10px;
+  vertical-align: text-bottom;
+}
+
+.content {
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0,0,0,.1);
+}
+.paper-list .paper-item {
+	border-bottom: 1px solid #e5e5e5;
+	margin: 0 1px 0 26px;
+}
+.paper-list .paper-item .fl {
+	padding: 25px 0;
+}
+.paper-list .paper-item .fr {
+	padding: 40px 30px;
+}
+.paper-list .paper-item .fl > span + span {
+	margin-left: 70px;
+}
+.paper-list .paper-item .fl > span:first-of-type {
+  margin-left: 28px;
+}
+.paper-list .paper-item .title {
+	margin-bottom: 12px;
+}
+.paper-list .paper-item .title a {
+	font-size: 16px;
+	margin-left: 10px;
+}
+.paper-list .paper-item .title a:hover {
+	color: #1c7fe2;
+}
+.paper-list .paper-item .fr .text-blue {
+	margin-right: 22px;
+}
+
+.input-icon {
+  position: relative;
+}
+.input-icon > .layui-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  color: #BFCBD9;
 }
